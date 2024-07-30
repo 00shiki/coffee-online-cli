@@ -22,6 +22,7 @@ loop:
 		fmt.Println("Selamat datang di Coffee Line!")
 		fmt.Println("1. Login")
 		fmt.Println("2. Register")
+		fmt.Println("3. Exit")
 		fmt.Println("Masukkan pilihan: ")
 		var option int
 		_, err := fmt.Scan(&option)
@@ -31,12 +32,13 @@ loop:
 		}
 		switch option {
 		case 1:
+			c.Handler.LoginUsers()
 		case 2:
 			c.Handler.RegisterUsers()
 		case 3:
 			break loop
 		default:
-			fmt.Println("Mohon masukkan pilihan (1/2)...")
+			fmt.Println("Mohon masukkan pilihan (1/2/3)...")
 		}
 	}
 }
