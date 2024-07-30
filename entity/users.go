@@ -1,17 +1,15 @@
 package entity
 
 type User struct {
-	UserID		int
-	Name		string
-	Email		string
-	Password	string
-	Location	string
-	CreatedAt	string
-	UpdateAt	string
+	ID       int
+	Name     string
+	Email    string
+	Password string
+	Location string
 	Role
 }
 
 type Role struct {
-	RoleID 		string
-	RoleName	string
+	ID   int
+	Name string
 }
