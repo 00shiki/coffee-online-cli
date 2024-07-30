@@ -1,8 +1,8 @@
-package orderproduct
+package entity
 
 type OrderProduct struct {
-	ID	int                        
+	ID int
 	Order
 	Product
-	Quantity		int
+	Quantity int
 }
