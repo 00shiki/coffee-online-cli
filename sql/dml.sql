@@ -5,11 +5,15 @@ INSERT INTO Role (RoleName) VALUES
 
 -- Insert sample data into Users table
 INSERT INTO Users (Name, Email, Password, Location, RoleID) VALUES
-('Alice Johnson', 'alice@example.com', 'password123', 'New York', 1),
-('Bob Smith', 'bob@example.com', 'password456', 'Los Angeles', 1),
-('Carol White', 'carol@example.com', 'password789', 'Chicago', 1),
-('Dave Brown', 'dave@example.com', 'password101', 'Houston', 1),
-('Eve Davis', 'eve@example.com', 'password202', 'Phoenix', 2);
+('Alice Johnson', 'alice@example.com', '$2a$12$lNr07cHNenW7BDFNqMGl9OkHnC.9lPNRE13ojEmILMHvFfbdADE0G', 'New York', 1),
+('Bob Smith', 'bob@example.com', '$2a$12$XryfxdUl0u9zWOOC3RmAlOP8gauDbkFCuwXhzccNr0cTExxyIIrDm
+', 'Los Angeles', 1),
+('Carol White', 'carol@example.com', '$2a$12$B.Wx6DDTpMTW6x9M3LCnqOeEZntzX9ARcqQZXtj1.wzoTqum3wBTW
+', 'Chicago', 1),
+('Dave Brown', 'dave@example.com', '$2a$12$gKLM/msfA86KfPXiAYQ.Sus/x7fs0evjIxISiw4huHd.6pSXBVTVq
+', 'Houston', 1),
+('Eve Davis', 'eve@example.com', '$2a$12$q5/W9r5y7RGwymcas0ty2eky.e865HZKQpxEGlF3Sq3PF0RVY40Na
+', 'Phoenix', 2);
 
 -- Insert sample data into Product table
 INSERT INTO Product (ProductName, Stock, Price) VALUES

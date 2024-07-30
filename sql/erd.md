@@ -14,8 +14,8 @@
   - ProductName: Name of the product.
   - Stock: Quantity of the product in stock (must be non-negative).
   - Price: Price of the product.
-  - CreatedAt: Timestamp of when the product was added.
-  - UpdatedAt: Timestamp of when the product was last updated.
+  - CreatedAt: Date of when the product was added.
+  - UpdatedAt: Date of when the product was last updated.
 
 - Role Table:
 
@@ -30,8 +30,8 @@
   - Password: Hashed password of the user.
   - Location: Location of the user.
   - RoleID: Identifier for the role the user has (foreign key referencing Role table).
-  - CreatedAt: Timestamp of when the user was created.
-  - UpdatedAt: Timestamp of when the user was last updated.
+  - CreatedAt: Date of when the user was created.
+  - UpdatedAt: Date of when the user was last updated.
 
 - Orders Table:
 
@@ -39,13 +39,13 @@
   - UserID: Identifier of the user who made the order (foreign key referencing Users table).
   - PaymentID: Identifier for the payment method used (foreign key referencing Payments table).
   - ShippingID: Identifier for the shipping information (foreign key referencing Shipping table).
-  - OrderDate: Date and time when the order was placed.
+  - OrderDate: Date when the order was placed.
 
 - Payments Table:
 
   - PaymentID: Unique identifier for each payment.
   - PaymentAmount: Amount of the payment.
-  - PaymentDate: Date and time of the payment.
+  - PaymentDate: Date of the payment.
 
 - Shipping Table:
 
