@@ -7,12 +7,12 @@ import (
 )
 
 type Handler struct {
-	usersRepo    *users.Repository
+	usersRepo    users.Repo
 	productsRepo *products.Repository
 	ordersRepo   *orders.Repository
 }
 
-func NewHandler(usersRepo *users.Repository, productsRepo *products.Repository, ordersRepo *orders.Repository) *Handler {
+func NewHandler(usersRepo users.Repo, productsRepo *products.Repository, ordersRepo *orders.Repository) *Handler {
 	return &Handler{
 		usersRepo:    usersRepo,
 		productsRepo: productsRepo,
