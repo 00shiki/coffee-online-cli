@@ -1,6 +1,6 @@
 # Entity Relationship Diagram (ERD) : CoffeeLine
 
-![image](ERD.png)
+![image](erd.png)
 
 ## 1. Database Creation:
 
