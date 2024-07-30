@@ -4,9 +4,10 @@ import (
 	"coffee-online-cli/entity"
 	"coffee-online-cli/utils"
 	"fmt"
-	"golang.org/x/term"
 	"log"
 	"syscall"
+
+	"golang.org/x/term"
 )
 
 func (h *Handler) RegisterUsers() {
@@ -32,7 +33,7 @@ func (h *Handler) RegisterUsers() {
 	}
 
 	fmt.Print("Masukkan password: ")
-	password, err := term.ReadPassword(syscall.Stdin)
+	password, err := term.ReadPassword (int(syscall.Stdin))
 	if err != nil {
 		log.Fatalf("Failed to read password: %v", err)
 		return
