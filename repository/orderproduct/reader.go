@@ -26,7 +26,7 @@ func (r *Repository) popularProducts() ([]entity.OrderProduct, error) {
 	for rows.Next() {
 		var odProd entity.OrderProduct
 		rows.Scan(
-			&odProd.Product.ProductID,
+			&odProd.Product.ID,
 			&odProd.Product.Name,
 			&odProd.Quantity
 		)

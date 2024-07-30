@@ -1,7 +1,7 @@
 package orderproduct
 
 type OrderProduct struct {
-	OrderProductID	int                        
+	ID	int                        
 	Order
 	Product
 	Quantity		int

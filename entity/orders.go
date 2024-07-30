@@ -2,19 +2,19 @@ package entity
 
 type Order struct {
 	OrderID		int
-	UserID		int
+	User
 	Payment		
 	Shipping	
-	OrderDate	string
+	Date		time.Time
 }
 
 type Payment struct {
-	PaymentID		int
+	ID				int
 	PaymentAmount	float64
-	PaymentDate		string
+	Date			time.Time
 }
 
 type Shipping struct {
-	ShippingID		int
-	ShippingStatus	string
+	ID		int
+	Status	string
 }
