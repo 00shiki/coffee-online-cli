@@ -3,11 +3,12 @@ package entity
 import "time"
 
 type Order struct {
-	OrderID int
+	OrderID      int
+	OrderProduct []OrderProduct
+	Date         time.Time
 	User
 	Payment
 	Shipping
-	Date time.Time
 }
 
 type Payment struct {
