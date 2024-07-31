@@ -33,7 +33,7 @@ func (h *Handler) RegisterUsers() {
 	}
 
 	fmt.Print("Masukkan password: ")
-	password, err := term.ReadPassword (int(syscall.Stdin))
+	password, err := term.ReadPassword(int(syscall.Stdin))
 	if err != nil {
 		log.Fatalf("Failed to read password: %v", err)
 		return
@@ -121,6 +121,7 @@ loop:
 		}
 		switch option {
 		case 1:
+			h.CoffeeOrders(user)
 		case 2:
 		case 3:
 		case 4:

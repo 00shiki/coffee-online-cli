@@ -1,6 +1,6 @@
 package orderproduct
 
-import "pair-project/entity"
+import "coffee-online-cli/entity"
 
 func (r *Repository) popularProducts() ([]entity.OrderProduct, error) {
 	// TODO: add query
@@ -17,7 +17,7 @@ func (r *Repository) popularProducts() ([]entity.OrderProduct, error) {
 				p.ProductID, p.ProductName
 			ORDER BY
 				TotalOrdered DESC;`
-	rows, err := r.DB.Query(query)
+	rows, err := r.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (r *Repository) popularProducts() ([]entity.OrderProduct, error) {
 		rows.Scan(
 			&odProd.Product.ID,
 			&odProd.Product.Name,
-			&odProd.Quantity
+			&odProd.Quantity,
 		)
 		orderproduct = append(orderproduct, odProd)
 	}
