@@ -133,3 +133,9 @@ loop:
 	}
 	fmt.Println("Pesanan telah dibuat. Pesanan akan segera datang. Selamat menikmati kopi anda!")
 }
+
+func (h *Handler) AdminOrders() {
+	// TODO: list pending orders
+	// TODO: orders detail
+	// TODO: ubah status pesanan
+}

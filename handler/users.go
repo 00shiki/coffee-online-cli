@@ -138,7 +138,7 @@ loop:
 		fmt.Println("***ADMIN***")
 		fmt.Println("1. Tambahkan Produk")
 		fmt.Println("2. Restock Produk")
-		fmt.Println("3. Mengubah Status Pengiriman")
+		fmt.Println("3. Lihat Pesanan")
 		fmt.Println("4. Laporan Produk Populer")
 		fmt.Println("5. Laporan Stok Produk")
 		fmt.Println("6. Laporan Pengeluaran Customer")
@@ -153,6 +153,7 @@ loop:
 		case 1:
 		case 2:
 		case 3:
+			h.AdminOrders()
 		case 4:
 		case 5:
 		case 6:
