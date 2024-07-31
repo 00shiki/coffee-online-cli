@@ -9,6 +9,8 @@ type Repo interface {
 
 type Reader interface {
 	CheckEmailExists(email string) error
+	GetUserByEmail(email string) (*entity.User, error)
+	GetUserByID(id int) (*entity.User, error)
 }
 
 type Writer interface {
