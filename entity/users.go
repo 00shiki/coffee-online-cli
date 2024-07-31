@@ -13,3 +13,9 @@ type Role struct {
 	ID   int
 	Name string
 }
+
+type Loyal struct {
+	Name          	string
+    TotalOrder 		int
+    TotalSpending 	float64
+}

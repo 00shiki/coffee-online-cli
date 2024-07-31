@@ -16,6 +16,14 @@ VALUES ('Alice Johnson', 'alice@example.com', '$2a$12$lNr07cHNenW7BDFNqMGl9OkHnC
        ('Eve Davis', 'eve@example.com', '$2a$12$q5/W9r5y7RGwymcas0ty2eky.e865HZKQpxEGlF3Sq3PF0RVY40Na
 ', 'Phoenix', 2);
 
+-- Insert sample data into Product table
+INSERT INTO Product (ProductName, Stock, Price) 
+VALUES ('Espresso', 100, 15000),
+       ('Cappuccino', 50, 20000),
+       ('Latte', 75, 22000),
+       ('Americano', 60, 18000),
+       ('Mocha', 40, 17500);
+
 -- Insert sample data into Payments table
 INSERT INTO Payments (PaymentAmount)
 VALUES (59000),
@@ -23,15 +31,7 @@ VALUES (59000),
        (44500),
        (46000),
        (67000);
-
--- Insert sample data into Payments table
-INSERT INTO Payments (PaymentAmount)
-VALUES (17.50),
-       (8.00),
-       (9.00),
-       (10.50),
-       (7.50);
-
+       
 -- Insert sample data into Shipping table
 INSERT INTO Shipping (ShippingStatus)
 VALUES ('Pending'),
