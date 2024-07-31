@@ -12,6 +12,7 @@ type Reader interface {
 	GetUserByEmail(email string) (*entity.User, error)
 	GetUserByID(id int) (*entity.User, error)
 	LoyalCustomer() ([]entity.Loyal, error)
+	PopularProduct() ([]entity.Popular, error)
 }
 
 type Writer interface {

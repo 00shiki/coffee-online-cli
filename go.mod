@@ -4,6 +4,7 @@ go 1.22.5
 
 require (
 	github.com/go-sql-driver/mysql v1.8.1
+	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.25.0
 	golang.org/x/term v0.22.0
@@ -15,7 +16,6 @@ require (
 	github.com/go-openapi/errors v0.22.0 // indirect
 	github.com/go-openapi/strfmt v0.23.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/jedib0t/go-pretty v4.3.0+incompatible // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
