@@ -117,6 +117,18 @@ func (h *Handler) ReportLoyal() {
 	fmt.Scanln("\n")
 }
 
+func (h *Handler) PopularProduct() {
+	fmt.Println("Daftar Produk Populer Coffe Hunter")
+	popular, err := h.usersRepo.PopularProduct()
+	if err != nil {
+		log.Fatalf("error fetching report: %v", err)
+		return
+	}
+	utils.PopularProductTable(popular)
+	fmt.Println("\nTekan tombol ENTER untuk melanjutkan ke menu...")
+	fmt.Scanln("\n")
+}
+
 func (h *Handler) CustomerMenu(user *entity.User) {
 loop:
 	for {
@@ -166,6 +178,7 @@ loop:
 		case 2:
 		case 3:
 		case 4:
+			h.PopularProduct()
 		case 5:
 		case 6:
 			h.ReportLoyal()
