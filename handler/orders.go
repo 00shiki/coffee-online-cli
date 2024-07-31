@@ -8,7 +8,7 @@ import (
 )
 
 func (h *Handler) CoffeeOrders(user *entity.User) {
-	var carts []entity.OrderProduct
+	var cart []entity.OrderProduct
 	var totalAmount float64
 loop:
 	for {
@@ -40,18 +40,26 @@ loop:
 			log.Fatalf("Failed to read quantity: %v", err)
 			return
 		}
+		cartIndex := utils.CheckProductExist(cart, product)
+		if cartIndex != -1 {
+			quantity += cart[cartIndex].Quantity
+		}
 		if quantity > product.Stock {
 			log.Fatal("Quantity cannot be greater than Stock")
 			return
 		}
-		orderProduct := entity.OrderProduct{
-			Product:  product,
-			Quantity: quantity,
+		var orderProduct entity.OrderProduct
+		if cartIndex != -1 {
+			orderProduct = cart[cartIndex]
+			orderProduct.Quantity = quantity
+		} else {
+			orderProduct.Product = product
+			orderProduct.Quantity = quantity
 		}
-		carts = append(carts, orderProduct)
+		cart = append(cart, orderProduct)
 		totalAmount += orderProduct.Product.Price * float64(orderProduct.Quantity)
 		fmt.Println("List Pesanan: ")
-		for i, cart := range carts {
+		for i, cart := range cart {
 			fmt.Printf("%d. %s [%d] - Rp %s\n", i+1, cart.Product.Name, cart.Quantity, utils.PriceFormat(cart.Product.Price))
 		}
 		fmt.Printf("Total Pesanan: Rp %s\n", utils.PriceFormat(totalAmount))
@@ -70,7 +78,7 @@ loop:
 			fmt.Println("Mohon masukkan (y/n)")
 		}
 		fmt.Println("List Pesanan: ")
-		for i, cart := range carts {
+		for i, cart := range cart {
 			fmt.Printf("%d. %s [%d] - Rp %s\n", i+1, cart.Product.Name, cart.Quantity, utils.PriceFormat(cart.Product.Price))
 		}
 		fmt.Printf("Total Pesanan: Rp %s\n", utils.PriceFormat(totalAmount))
@@ -93,7 +101,7 @@ loop:
 		}
 	}
 	order := &entity.Order{
-		OrderProduct: carts,
+		OrderProduct: cart,
 		User:         *user,
 	}
 	err := h.ordersRepo.OrderPayment(order)
