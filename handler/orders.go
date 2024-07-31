@@ -30,7 +30,7 @@ loop:
 			return
 		}
 		if index == len(products)+1 {
-			break
+			return
 		}
 		product := products[index-1]
 		fmt.Printf("Masukkan banyaknya kopi yang ingin dibeli (Stok: %d): ", product.Stock)
@@ -42,6 +42,7 @@ loop:
 		}
 		cartIndex := utils.CheckProductExist(cart, product)
 		if cartIndex != -1 {
+			totalAmount -= product.Price * float64(cart[cartIndex].Quantity)
 			quantity += cart[cartIndex].Quantity
 		}
 		if quantity > product.Stock {
@@ -64,7 +65,13 @@ loop:
 		totalAmount += orderProduct.Product.Price * float64(orderProduct.Quantity)
 		fmt.Println("List Pesanan: ")
 		for i, cart := range cart {
-			fmt.Printf("%d. %s [%d] - Rp %s\n", i+1, cart.Product.Name, cart.Quantity, utils.PriceFormat(cart.Product.Price))
+			fmt.Printf(
+				"%d. %s [%d] - Rp %s\n",
+				i+1,
+				cart.Product.Name,
+				cart.Quantity,
+				utils.PriceFormat(float64(cart.Quantity)*cart.Product.Price),
+			)
 		}
 		fmt.Printf("Total Pesanan: Rp %s\n", utils.PriceFormat(totalAmount))
 		fmt.Print("Ingin menambah pesanan? (y/n): ")
@@ -83,7 +90,13 @@ loop:
 		}
 		fmt.Println("List Pesanan: ")
 		for i, cart := range cart {
-			fmt.Printf("%d. %s [%d] - Rp %s\n", i+1, cart.Product.Name, cart.Quantity, utils.PriceFormat(cart.Product.Price))
+			fmt.Printf(
+				"%d. %s [%d] - Rp %s\n",
+				i+1,
+				cart.Product.Name,
+				cart.Quantity,
+				utils.PriceFormat(float64(cart.Quantity)*cart.Product.Price),
+			)
 		}
 		fmt.Printf("Total Pesanan: Rp %s\n", utils.PriceFormat(totalAmount))
 		fmt.Println("Ongkos Kirim: Rp 9.000,00")
