@@ -105,6 +105,18 @@ func (h *Handler) LoginUsers() {
 	}
 }
 
+func (h *Handler) ReportLoyal() {
+	fmt.Println("Daftar Loyal Customer Coffee Hunter")
+	loyals, err := h.usersRepo.LoyalCustomer()
+	if err != nil {
+		log.Fatalf("error fetching report: %v", err)
+		return
+	}
+	utils.LoyalTable(loyals)
+	fmt.Println("\nTekan tombol ENTER untuk melanjutkan ke menu...")
+	fmt.Scanln("\n")
+}
+
 func (h *Handler) CustomerMenu(user *entity.User) {
 loop:
 	for {
@@ -141,7 +153,7 @@ loop:
 		fmt.Println("3. Mengubah Status Pengiriman")
 		fmt.Println("4. Laporan Produk Populer")
 		fmt.Println("5. Laporan Stok Produk")
-		fmt.Println("6. Laporan Pengeluaran Customer")
+		fmt.Println("6. Laporan Loyal Customer")
 		fmt.Println("7. Logout")
 		fmt.Print("Masukkan pilihan: ")
 		var option int
@@ -156,6 +168,7 @@ loop:
 		case 4:
 		case 5:
 		case 6:
+			h.ReportLoyal()
 		case 7:
 			break loop
 		default:
