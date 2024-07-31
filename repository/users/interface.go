@@ -11,6 +11,7 @@ type Reader interface {
 	CheckEmailExists(email string) error
 	GetUserByEmail(email string) (*entity.User, error)
 	GetUserByID(id int) (*entity.User, error)
+	LoyalCustomer() ([]entity.Loyal, error)
 }
 
 type Writer interface {

@@ -103,3 +103,38 @@ func (r *Repository) GetUserByID(id int) (*entity.User, error) {
 	}
 	return user, nil
 }
+
+
+func (r *Repository) LoyalCustomer() ([]entity.Loyal, error) {
+	query := `
+			SELECT 
+				u.Name AS Name,
+				COUNT(o.OrderID) AS PurchaseCount,
+				SUM(p.PaymentAmount) AS TotalSpending
+			FROM 
+				Users u
+			JOIN 
+				Orders o ON u.UserID = o.UserID
+			JOIN 
+				Payments p ON o.PaymentID = p.PaymentID
+			GROUP BY 
+				u.UserID
+			ORDER BY 
+				PurchaseCount DESC, TotalSpending DESC;`
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var loyals []entity.Loyal
+	for rows.Next() {
+		var loyal entity.Loyal
+		rows.Scan(
+			&loyal.Name,
+			&loyal.TotalOrder,
+			&loyal.TotalSpending,
+		)
+		loyals = append(loyals, loyal)
+	}
+	return loyals, nil
+}
