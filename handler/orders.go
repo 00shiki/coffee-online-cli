@@ -56,7 +56,11 @@ loop:
 			orderProduct.Product = product
 			orderProduct.Quantity = quantity
 		}
-		cart = append(cart, orderProduct)
+		if cartIndex != -1 {
+			cart[cartIndex] = orderProduct
+		} else {
+			cart = append(cart, orderProduct)
+		}
 		totalAmount += orderProduct.Product.Price * float64(orderProduct.Quantity)
 		fmt.Println("List Pesanan: ")
 		for i, cart := range cart {
