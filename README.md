@@ -79,6 +79,11 @@ DB_NAME=your_database_name
 ## Preview Scout Store Admin CLI
 ### Main Interface
 ![login](./images/login.png)
+### Login Menu
+![login](./images/loginn.png)
+### Register Menu
+![regis](./images/regis.png)
+
 ### User's Main Menu
 ![user](./images/user.png)
 ### Orders Menu
@@ -89,6 +94,8 @@ DB_NAME=your_database_name
 
 ### Admin's Main Menu
 ![admin](./images/admin.png)
+### Add Product
+![add](./images/add.png)
 ### Restock Product
 ![restock](./images/restock.png)
 ### Send Orders
