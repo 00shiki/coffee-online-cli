@@ -7,7 +7,7 @@ import (
 	"github.com/jedib0t/go-pretty/table"
 )
 
-func LoyalTable(loyals []entity.Loyal) {
+func LoyalTable(loyals []entity.UserLoyal) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	t.AppendHeader(
@@ -31,7 +31,7 @@ func LoyalTable(loyals []entity.Loyal) {
 	t.Render()
 }
 
-func PopularProductTable(popular []entity.Popular) {
+func PopularProductTable(popular []entity.ProductPopular) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	t.AppendHeader(
@@ -46,7 +46,7 @@ func PopularProductTable(popular []entity.Popular) {
 		t.AppendRow(
 			table.Row{
 				i + 1,
-				popular.Product,
+				popular.Name,
 				popular.TotalOrder,
 				"Rp " + PriceFormat(popular.TotalSpending),
 			},

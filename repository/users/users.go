@@ -104,8 +104,7 @@ func (r *Repository) GetUserByID(id int) (*entity.User, error) {
 	return user, nil
 }
 
-
-func (r *Repository) LoyalCustomer() ([]entity.Loyal, error) {
+func (r *Repository) LoyalCustomer() ([]entity.UserLoyal, error) {
 	query := `
 			SELECT 
 				u.Name AS Name,
@@ -126,9 +125,9 @@ func (r *Repository) LoyalCustomer() ([]entity.Loyal, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var loyals []entity.Loyal
+	var loyals []entity.UserLoyal
 	for rows.Next() {
-		var loyal entity.Loyal
+		var loyal entity.UserLoyal
 		rows.Scan(
 			&loyal.Name,
 			&loyal.TotalOrder,
@@ -139,7 +138,7 @@ func (r *Repository) LoyalCustomer() ([]entity.Loyal, error) {
 	return loyals, nil
 }
 
-func (r *Repository) PopularProduct() ([]entity.Popular, error) {
+func (r *Repository) PopularProduct() ([]entity.ProductPopular, error) {
 	query := `
 		SELECT 
 		    p.ProductName,
@@ -158,11 +157,11 @@ func (r *Repository) PopularProduct() ([]entity.Popular, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var populars []entity.Popular
+	var populars []entity.ProductPopular
 	for rows.Next() {
-		var popular entity.Popular
+		var popular entity.ProductPopular
 		rows.Scan(
-			&popular.Product,
+			&popular.Name,
 			&popular.TotalOrder,
 			&popular.TotalSpending,
 		)
