@@ -101,6 +101,7 @@ func (h *Handler) LoginUsers() {
 		log.Fatalf("Failed to get user: %v", err)
 		return
 	}
+	loggedUser.Password = user.Password
 
 	switch loggedUser.Role.ID {
 	case 1:
