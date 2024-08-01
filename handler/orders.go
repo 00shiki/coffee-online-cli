@@ -10,14 +10,14 @@ import (
 func (h *Handler) CoffeeOrders(user *entity.User) {
 	var cart []entity.OrderProduct
 	var totalAmount float64
+	products, err := h.productsRepo.FetchProducts()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 loop:
 	for {
 		fmt.Println("Menu kopi hari ini:")
-		products, err := h.productsRepo.FetchProducts()
-		if err != nil {
-			log.Fatal(err)
-			return
-		}
 		for i, product := range products {
 			fmt.Printf("%d. %s - Rp %s [%d]\n", i+1, product.Name, utils.PriceFormat(product.Price), product.Stock)
 		}
@@ -121,7 +121,7 @@ loop:
 		OrderProduct: cart,
 		User:         *user,
 	}
-	err := h.ordersRepo.OrderPayment(order)
+	err = h.ordersRepo.OrderPayment(order)
 	if err != nil {
 		log.Fatal(err)
 		return

@@ -65,3 +65,41 @@ func (h *Handler) CreateProduct() {
 	}
 	fmt.Println("Menu kopi baru berhasil dibuat!")
 }
+
+func (h *Handler) ProductRestock() {
+	for {
+		products, err := h.productsRepo.FetchProducts()
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+		fmt.Println("Daftar Produk Kopi:")
+		for i, product := range products {
+			fmt.Printf("%d. %s - Rp %s [%d]\n", i+1, product.Name, utils.PriceFormat(product.Price), product.Stock)
+		}
+		fmt.Printf("%d. Kembali\n", len(products)+1)
+		fmt.Print("Masukkan kopi yang ingin distok ulang: ")
+		var index int
+		_, err = fmt.Scan(&index)
+		if err != nil {
+			log.Fatalf("Failed to read products index: %v", err)
+			return
+		}
+		if index == len(products)+1 {
+			return
+		}
+		product := products[index-1]
+		fmt.Printf("Masukkan banyaknya stok baru (Stok: %d): ", product.Stock)
+		var newStock int
+		_, err = fmt.Scan(&newStock)
+		if err != nil {
+			log.Fatalf("Failed to read new stock: %v", err)
+			return
+		}
+		err = h.productsRepo.ProductStockUpdate(product.ID, product.Stock+newStock)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+	}
+}

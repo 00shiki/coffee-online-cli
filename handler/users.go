@@ -101,7 +101,7 @@ func (h *Handler) LoginUsers() {
 	case 1:
 		h.CustomerMenu(loggedUser)
 	case 2:
-		h.AdminMenu(loggedUser)
+		h.AdminMenu()
 	}
 }
 
@@ -145,7 +145,7 @@ loop:
 	}
 }
 
-func (h *Handler) AdminMenu(user *entity.User) {
+func (h *Handler) AdminMenu() {
 loop:
 	for {
 		fmt.Println("***ADMIN***")
@@ -166,6 +166,7 @@ loop:
 		case 1:
 			h.CreateProduct()
 		case 2:
+			h.ProductRestock()
 		case 3:
 			h.ShipOrders()
 		case 4:
