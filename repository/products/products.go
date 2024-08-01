@@ -79,8 +79,7 @@ func (r *Repository) ProductStockUpdate(id int, newStock int) error {
 	return nil
 }
 
-func (r *Repository) popularProducts() ([]entity.OrderProduct, error) {
-	// TODO: add query
+func (r *Repository) PopularProducts() ([]entity.OrderProduct, error) {
 	query := `
 			SELECT
 				p.ProductID,
