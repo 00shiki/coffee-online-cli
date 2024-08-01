@@ -23,7 +23,7 @@ loop:
 		fmt.Println("1. Login")
 		fmt.Println("2. Register")
 		fmt.Println("3. Exit")
-		fmt.Println("Masukkan pilihan: ")
+		fmt.Print("Masukkan pilihan: ")
 		var option int
 		_, err := fmt.Scan(&option)
 		if err != nil {

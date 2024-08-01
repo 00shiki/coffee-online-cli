@@ -117,6 +117,81 @@ func (h *Handler) ReportLoyal() {
 	fmt.Scanf("\n")
 }
 
+func (h *Handler) UserUpdate(user *entity.User) {
+	newUser := entity.User{
+		ID:       user.ID,
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.Password,
+		Location: user.Location,
+	}
+	// TODO: masukkan data yang ingin diubah
+loop:
+	for {
+		fmt.Println("Daftar kolom user:")
+		fmt.Printf("1. Nama (%s)\n", newUser.Name)
+		fmt.Printf("2. Email (%s)\n", newUser.Email)
+		fmt.Println("3. Password")
+		fmt.Printf("4. Lokasi (%s)\n", newUser.Location)
+		fmt.Println("5. Simpan Perubahan")
+		fmt.Println("6. Kembali")
+		fmt.Print("Masukkan kolom yang ingin diubah: ")
+		var column int
+		_, err := fmt.Scan(&column)
+		if err != nil {
+			log.Fatalf("Failed to read column: %v", err)
+			return
+		}
+		switch column {
+		case 1:
+			fmt.Print("Masukkan nama baru: ")
+			_, err := fmt.Scanln(&newUser.Name)
+			if err != nil {
+				log.Fatalf("Failed to read name: %v", err)
+				return
+			}
+		case 2:
+			fmt.Print("Masukkan email baru: ")
+			_, err := fmt.Scan(&newUser.Email)
+			if err != nil {
+				log.Fatalf("Failed to read email: %v", err)
+				return
+			}
+		case 3:
+			fmt.Print("Masukkan password baru: ")
+			newPassword, err := term.ReadPassword(int(syscall.Stdin))
+			if err != nil {
+				log.Fatalf("Failed to read password: %v", err)
+				return
+			}
+			newUser.Password = utils.HashPassword(newPassword)
+		case 4:
+			fmt.Print("Masukkan lokasi baru: ")
+			_, err := fmt.Scanln(&newUser.Location)
+			if err != nil {
+				log.Fatalf("Failed to read location: %v", err)
+				return
+			}
+		case 5:
+			break loop
+		case 6:
+			return
+		default:
+			fmt.Println("Mohon masukkan (1/2/3/4/5/6)")
+		}
+	}
+	err := h.usersRepo.EditUser(newUser)
+	if err != nil {
+		log.Fatalf("Failed to update user: %v", err)
+		return
+	}
+	user.Name = newUser.Name
+	user.Email = newUser.Email
+	user.Password = newUser.Password
+	user.Location = newUser.Location
+	fmt.Println("Perubahan berhasil dibuat")
+}
+
 func (h *Handler) CustomerMenu(user *entity.User) {
 loop:
 	for {
@@ -137,6 +212,7 @@ loop:
 		case 2:
 			h.UserOrders(user)
 		case 3:
+			h.UserUpdate(user)
 		case 4:
 			break loop
 		default:
