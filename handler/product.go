@@ -27,6 +27,10 @@ func (h *Handler) CreateProduct() {
 		log.Fatalf("Failed to read product name: %v", err)
 		return
 	}
+	if name == "" {
+		fmt.Println("Nama tidak boleh kosong")
+		return
+	}
 	fmt.Print("Masukkan stok awal: ")
 	var stock int
 	_, err = fmt.Scan(&stock)
@@ -34,11 +38,19 @@ func (h *Handler) CreateProduct() {
 		log.Fatalf("Failed to read product stock: %v", err)
 		return
 	}
+	if stock <= 0 {
+		fmt.Println("Stok awal tidak boleh kosong atau negatif")
+		return
+	}
 	fmt.Print("Masukkan harga kopi: ")
 	var price float64
 	_, err = fmt.Scan(&price)
 	if err != nil {
 		log.Fatalf("Failed to read product price: %v", err)
+		return
+	}
+	if price <= 0 {
+		fmt.Println("Harga tidak boleh kosong atau negatif")
 		return
 	}
 	product := entity.Product{
