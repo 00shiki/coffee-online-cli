@@ -164,6 +164,7 @@ loop:
 		}
 		switch option {
 		case 1:
+			h.CreateProduct()
 		case 2:
 		case 3:
 			h.ShipOrders()
