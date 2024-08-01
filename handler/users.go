@@ -96,6 +96,7 @@ func (h *Handler) LoginUsers() {
 		log.Fatalf("Failed to get user: %v", err)
 		return
 	}
+	loggedUser.Password = user.Password
 
 	switch loggedUser.Role.ID {
 	case 1:
@@ -125,7 +126,6 @@ func (h *Handler) UserUpdate(user *entity.User) {
 		Password: user.Password,
 		Location: user.Location,
 	}
-	// TODO: masukkan data yang ingin diubah
 loop:
 	for {
 		fmt.Println("Daftar kolom user:")
