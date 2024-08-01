@@ -96,7 +96,7 @@ func (r *Repository) CreateOrder(order *entity.Order) error {
 }
 
 func (r *Repository) UpdateOrderShippingStatus(orderID int, shippingStatus entity.ShippingStatus) error {
-	query, err := r.db.Prepare("UPDATE Orders SET ShippingID = ? WHERE ID = ?")
+	query, err := r.db.Prepare("UPDATE Orders SET ShippingID = ? WHERE OrderID = ?")
 	if err != nil {
 		return fmt.Errorf("could not prepare query: %v", err)
 	}
@@ -140,7 +140,7 @@ func (r *Repository) FetchUserOrders(userID int) ([]entity.Order, error) {
 
 func (r *Repository) FetchPendingOrders() ([]entity.Order, error) {
 	var orders []entity.Order
-	query, err := r.db.Prepare("SELECT OrderID, OrderDate, ShippingID FROM Orders")
+	query, err := r.db.Prepare("SELECT OrderID, OrderDate, ShippingID FROM Orders WHERE ShippingID = 1")
 	if err != nil {
 		return nil, fmt.Errorf("could not prepare query: %v", err)
 	}
@@ -166,7 +166,7 @@ func (r *Repository) GetOrderByID(orderID int) (*entity.Order, error) {
 		ID: orderID,
 	}
 	query1, err := r.db.Prepare(`
-	SELECT u.UserID, u.Name AS UserName, p.PaymentID, p.PaymentAmount, p.PaymentDate, o.OrderDate, o.ShippingID AS ShippingStatus
+	SELECT u.UserID, u.Name AS UserName, u.Location, p.PaymentID, p.PaymentAmount, p.PaymentDate, o.OrderDate, o.ShippingID AS ShippingStatus
 	FROM Orders o
 			 JOIN Users u ON o.UserID = u.UserID
 			 JOIN Payments p ON o.PaymentID = p.PaymentID
@@ -187,6 +187,7 @@ func (r *Repository) GetOrderByID(orderID int) (*entity.Order, error) {
 	err = rowsOrders.Scan(
 		&order.User.ID,
 		&order.User.Name,
+		&order.User.Location,
 		&order.Payment.ID,
 		&order.Payment.PaymentAmount,
 		&order.Payment.Date,
@@ -218,6 +219,7 @@ func (r *Repository) GetOrderByID(orderID int) (*entity.Order, error) {
 			&product.ID,
 			&product.Product.ID,
 			&product.Product.Name,
+			&product.Product.Stock,
 			&product.Product.Price,
 			&product.Quantity,
 		)

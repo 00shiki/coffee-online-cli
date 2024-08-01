@@ -134,7 +134,7 @@ loop:
 	for {
 		fmt.Printf("Halo %s, ingin kopi apa hari ini?\n", user.Name)
 		fmt.Println("1. Pesan Kopi")
-		fmt.Println("2. Melihat Pesanan")
+		fmt.Println("2. Melihat Status Pesanan")
 		fmt.Println("3. Edit User")
 		fmt.Println("4. Logout")
 		fmt.Print("Masukkan pilihan: ")
@@ -162,7 +162,7 @@ loop:
 		fmt.Println("***ADMIN***")
 		fmt.Println("1. Tambahkan Produk")
 		fmt.Println("2. Restock Produk")
-		fmt.Println("3. Lihat Pesanan")
+		fmt.Println("3. Kirim Pesanan")
 		fmt.Println("4. Laporan Produk Populer")
 		fmt.Println("5. Laporan Stok Produk")
 		fmt.Println("6. Laporan Loyal Customer")
@@ -177,7 +177,7 @@ loop:
 		case 1:
 		case 2:
 		case 3:
-			h.AdminOrders()
+			h.ShipOrders()
 		case 4:
 			h.PopularProduct()
 		case 5:
