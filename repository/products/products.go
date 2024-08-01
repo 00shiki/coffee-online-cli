@@ -78,3 +78,37 @@ func (r *Repository) ProductStockUpdate(id int, newStock int) error {
 	}
 	return nil
 }
+
+func (r *Repository) PopularProduct() ([]entity.ProductPopular, error) {
+	query := `
+			SELECT
+				p.ProductID,
+				p.ProductName,
+				SUM(op.Quantity) AS TotalOrder,
+				SUM(op.Quantity*p.Price) AS TotalRevenue
+			FROM
+				OrderProduct op
+			JOIN
+				Product p ON op.ProductID = p.ProductID
+			GROUP BY
+				p.ProductID, p.ProductName
+			ORDER BY
+				TotalOrder DESC;`
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var products []entity.ProductPopular
+	for rows.Next() {
+		var product entity.ProductPopular
+		rows.Scan(
+			&product.ID,
+			&product.Name,
+			&product.TotalOrder,
+			&product.TotalRevenue,
+		)
+		products = append(products, product)
+	}
+	return products, nil
+}

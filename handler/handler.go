@@ -12,7 +12,7 @@ type Handler struct {
 	ordersRepo   orders.Repo
 }
 
-func NewHandler(usersRepo users.Repo, productsRepo products.Repo, ordersRepo *orders.Repository) *Handler {
+func NewHandler(usersRepo users.Repo, productsRepo products.Repo, ordersRepo orders.Repo) *Handler {
 	return &Handler{
 		usersRepo:    usersRepo,
 		productsRepo: productsRepo,

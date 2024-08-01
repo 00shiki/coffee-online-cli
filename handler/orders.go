@@ -133,3 +133,78 @@ loop:
 	}
 	fmt.Println("Pesanan telah dibuat. Pesanan akan segera datang. Selamat menikmati kopi anda!")
 }
+
+func (h *Handler) ShipOrders() {
+	orders, err := h.ordersRepo.FetchPendingOrders()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	if len(orders) == 0 {
+		fmt.Println("Semua pesanan sudah dikirim")
+		return
+	}
+	var orderID int
+loop:
+	for {
+		fmt.Println("Daftar Pesanan:")
+		for i, order := range orders {
+			fmt.Printf("%d. %d %s %s\n", i+1, order.ID, order.Date.Format("2006-02-01"), utils.PrintShippingStatus(order.ShippingStatus))
+		}
+		fmt.Printf("%d. Kembali\n", len(orders)+1)
+		fmt.Print("Masukkan pesanan yang ingin diubah: ")
+		var ordersIndex int
+		_, err = fmt.Scan(&ordersIndex)
+		if err != nil {
+			log.Fatalf("Failed to read prompt: %v", err)
+			return
+		}
+		if ordersIndex == len(orders)+1 {
+			return
+		}
+		if ordersIndex < 1 || ordersIndex > len(orders) {
+			log.Fatal("Index out of range")
+			return
+		}
+		orderID = orders[ordersIndex-1].ID
+		order, err := h.ordersRepo.GetOrderByID(orderID)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+		fmt.Println("Pesanan:", order.ID)
+		fmt.Println("Customer:", order.User.Name)
+		fmt.Println("Tujuan:", order.Location)
+		for i, orderProduct := range order.OrderProduct {
+			fmt.Printf(
+				"%d. %s [%d] Rp %s\n",
+				i+1,
+				orderProduct.Product.Name,
+				orderProduct.Quantity,
+				utils.PriceFormat(orderProduct.Product.Price*float64(orderProduct.Quantity)),
+			)
+		}
+		fmt.Println("Ongkos  Kirim: Rp 9.000,00")
+		fmt.Println("Total Pembayaran: Rp", utils.PriceFormat(order.Payment.PaymentAmount))
+		fmt.Println("Status Pengiriman:", utils.PrintShippingStatus(order.ShippingStatus))
+		fmt.Print("Apakah pesanan sudah siap untuk dikirim? (y/n): ")
+		var chg string
+		_, err = fmt.Scan(&chg)
+		if err != nil {
+			log.Fatalf("Failed to read prompt: %v", err)
+		}
+		switch chg {
+		case "y":
+			break loop
+		case "n":
+		default:
+			fmt.Println("Mohon masukkan (y/n)")
+		}
+	}
+	err = h.ordersRepo.UpdateOrderShippingStatus(orderID, entity.Shipped)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	fmt.Println("Pesanan sedang dikirim")
+}

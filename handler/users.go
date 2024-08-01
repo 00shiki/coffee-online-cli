@@ -114,19 +114,7 @@ func (h *Handler) ReportLoyal() {
 	}
 	utils.LoyalTable(loyals)
 	fmt.Println("\nTekan tombol ENTER untuk melanjutkan ke menu...")
-	fmt.Scanln("\n")
-}
-
-func (h *Handler) PopularProduct() {
-	fmt.Println("Daftar Produk Populer Coffe Hunter")
-	popular, err := h.usersRepo.PopularProduct()
-	if err != nil {
-		log.Fatalf("error fetching report: %v", err)
-		return
-	}
-	utils.PopularProductTable(popular)
-	fmt.Println("\nTekan tombol ENTER untuk melanjutkan ke menu...")
-	fmt.Scanln("\n")
+	fmt.Scanf("\n")
 }
 
 func (h *Handler) CustomerMenu(user *entity.User) {
@@ -134,7 +122,7 @@ loop:
 	for {
 		fmt.Printf("Halo %s, ingin kopi apa hari ini?\n", user.Name)
 		fmt.Println("1. Pesan Kopi")
-		fmt.Println("2. Melihat Pesanan")
+		fmt.Println("2. Melihat Status Pesanan")
 		fmt.Println("3. Edit User")
 		fmt.Println("4. Logout")
 		fmt.Print("Masukkan pilihan: ")
@@ -162,7 +150,7 @@ loop:
 		fmt.Println("***ADMIN***")
 		fmt.Println("1. Tambahkan Produk")
 		fmt.Println("2. Restock Produk")
-		fmt.Println("3. Mengubah Status Pengiriman")
+		fmt.Println("3. Kirim Pesanan")
 		fmt.Println("4. Laporan Produk Populer")
 		fmt.Println("5. Laporan Stok Produk")
 		fmt.Println("6. Laporan Loyal Customer")
@@ -177,6 +165,7 @@ loop:
 		case 1:
 		case 2:
 		case 3:
+			h.ShipOrders()
 		case 4:
 			h.PopularProduct()
 		case 5:

@@ -10,6 +10,7 @@ type Repo interface {
 type Reader interface {
 	FetchProducts() ([]entity.Product, error)
 	GetProductByID(id int) (*entity.Product, error)
+	PopularProduct() ([]entity.ProductPopular, error)
 }
 
 type Writer interface {

@@ -104,8 +104,7 @@ func (r *Repository) GetUserByID(id int) (*entity.User, error) {
 	return user, nil
 }
 
-
-func (r *Repository) LoyalCustomer() ([]entity.Loyal, error) {
+func (r *Repository) LoyalCustomer() ([]entity.UserLoyal, error) {
 	query := `
 			SELECT 
 				u.Name AS Name,
@@ -126,9 +125,9 @@ func (r *Repository) LoyalCustomer() ([]entity.Loyal, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var loyals []entity.Loyal
+	var loyals []entity.UserLoyal
 	for rows.Next() {
-		var loyal entity.Loyal
+		var loyal entity.UserLoyal
 		rows.Scan(
 			&loyal.Name,
 			&loyal.TotalOrder,
@@ -137,36 +136,4 @@ func (r *Repository) LoyalCustomer() ([]entity.Loyal, error) {
 		loyals = append(loyals, loyal)
 	}
 	return loyals, nil
-}
-
-func (r *Repository) PopularProduct() ([]entity.Popular, error) {
-	query := `
-		SELECT 
-		    p.ProductName,
-		    SUM(op.Quantity) AS TotalOrderQuantity,
-		    SUM(op.Quantity * p.Price) AS TotalRevenue
-		FROM 
-		    OrderProduct op
-		JOIN 
-		    Product p ON op.ProductID = p.ProductID
-		GROUP BY 
-		    p.ProductID
-		ORDER BY 
-		    TotalOrderQuantity DESC;`
-	rows, err := r.db.Query(query)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var populars []entity.Popular
-	for rows.Next() {
-		var popular entity.Popular
-		rows.Scan(
-			&popular.Product,
-			&popular.TotalOrder,
-			&popular.TotalSpending,
-		)
-		populars = append(populars, popular)
-	}
-	return populars, nil
 }
