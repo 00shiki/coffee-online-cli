@@ -208,3 +208,83 @@ loop:
 	}
 	fmt.Println("Pesanan sedang dikirim")
 }
+
+func (h *Handler) UserOrders(user *entity.User) {
+	orders, err := h.ordersRepo.FetchUserOrders(user.ID)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	if len(orders) == 0 {
+		fmt.Println("Belum ada pesanan yang dibuat")
+		return
+	}
+	var orderID int
+loop:
+	for {
+		fmt.Println("Daftar Pesanan:")
+		for i, order := range orders {
+			fmt.Printf("%d. %d %s %s\n", i+1, order.ID, order.Date.Format("2006-02-01"), utils.PrintShippingStatus(order.ShippingStatus))
+		}
+		fmt.Printf("%d. Kembali\n", len(orders)+1)
+		fmt.Print("Masukkan nomor pesanan: ")
+		var ordersIndex int
+		_, err = fmt.Scan(&ordersIndex)
+		if err != nil {
+			log.Fatalf("Failed to read prompt: %v", err)
+			return
+		}
+		if ordersIndex == len(orders)+1 {
+			return
+		}
+		if ordersIndex < 1 || ordersIndex > len(orders) {
+			log.Fatal("Index out of range")
+			return
+		}
+		orderID = orders[ordersIndex-1].ID
+		order, err := h.ordersRepo.GetOrderByID(orderID)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+		fmt.Println("Pesanan:", order.ID)
+		fmt.Println("Customer:", order.User.Name)
+		fmt.Println("Tujuan:", order.Location)
+		for i, orderProduct := range order.OrderProduct {
+			fmt.Printf(
+				"%d. %s [%d] Rp %s\n",
+				i+1,
+				orderProduct.Product.Name,
+				orderProduct.Quantity,
+				utils.PriceFormat(orderProduct.Product.Price*float64(orderProduct.Quantity)),
+			)
+		}
+		fmt.Println("Ongkos  Kirim: Rp 9.000,00")
+		fmt.Println("Total Pembayaran: Rp", utils.PriceFormat(order.Payment.PaymentAmount))
+		fmt.Println("Status Pengiriman:", utils.PrintShippingStatus(order.ShippingStatus))
+		if order.ShippingStatus != entity.Shipped {
+			fmt.Println("\nTekan tombol ENTER untuk melanjutkan ke daftar pesanan...")
+			fmt.Scanf("\n")
+			continue loop
+		}
+		fmt.Print("Apakah ingin menyelesaikan pesanan? (y/n): ")
+		var complete string
+		_, err = fmt.Scan(&complete)
+		if err != nil {
+			log.Fatalf("Failed to read prompt: %v", err)
+		}
+		switch complete {
+		case "y":
+			break loop
+		case "n":
+		default:
+			fmt.Println("Mohon masukkan (y/n)")
+		}
+	}
+	err = h.ordersRepo.UpdateOrderShippingStatus(orderID, entity.Delivered)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	fmt.Println("Pesanan telah selesai. Selamat menikmati kopi anda!")
+}

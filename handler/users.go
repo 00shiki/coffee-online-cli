@@ -135,6 +135,7 @@ loop:
 		case 1:
 			h.CoffeeOrders(user)
 		case 2:
+			h.UserOrders(user)
 		case 3:
 		case 4:
 			break loop
