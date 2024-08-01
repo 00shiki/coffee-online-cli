@@ -16,4 +16,5 @@ type Reader interface {
 
 type Writer interface {
 	CreateUser(user entity.User) error
+	EditUser(user entity.User) error
 }
