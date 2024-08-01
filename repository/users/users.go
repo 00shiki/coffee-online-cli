@@ -137,35 +137,3 @@ func (r *Repository) LoyalCustomer() ([]entity.UserLoyal, error) {
 	}
 	return loyals, nil
 }
-
-func (r *Repository) PopularProduct() ([]entity.ProductPopular, error) {
-	query := `
-		SELECT 
-		    p.ProductName,
-		    SUM(op.Quantity) AS TotalOrderQuantity,
-		    SUM(op.Quantity * p.Price) AS TotalRevenue
-		FROM 
-		    OrderProduct op
-		JOIN 
-		    Product p ON op.ProductID = p.ProductID
-		GROUP BY 
-		    p.ProductID
-		ORDER BY 
-		    TotalOrderQuantity DESC;`
-	rows, err := r.db.Query(query)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var populars []entity.ProductPopular
-	for rows.Next() {
-		var popular entity.ProductPopular
-		rows.Scan(
-			&popular.Name,
-			&popular.TotalOrder,
-			&popular.TotalSpending,
-		)
-		populars = append(populars, popular)
-	}
-	return populars, nil
-}

@@ -10,7 +10,8 @@ type Product struct {
 }
 
 type ProductPopular struct {
-	Name          string
-	TotalOrder    int
-	TotalSpending float64
+	ID           int
+	Name         string
+	TotalOrder   int
+	TotalRevenue float64
 }

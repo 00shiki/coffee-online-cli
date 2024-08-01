@@ -48,7 +48,7 @@ func PopularProductTable(popular []entity.ProductPopular) {
 				i + 1,
 				popular.Name,
 				popular.TotalOrder,
-				"Rp " + PriceFormat(popular.TotalSpending),
+				"Rp " + PriceFormat(popular.TotalRevenue),
 			},
 		)
 	}

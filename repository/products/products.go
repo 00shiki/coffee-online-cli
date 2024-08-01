@@ -79,12 +79,13 @@ func (r *Repository) ProductStockUpdate(id int, newStock int) error {
 	return nil
 }
 
-func (r *Repository) PopularProducts() ([]entity.OrderProduct, error) {
+func (r *Repository) PopularProduct() ([]entity.ProductPopular, error) {
 	query := `
 			SELECT
 				p.ProductID,
 				p.ProductName,
-				SUM(op.Quantity) AS TotalOrdered
+				SUM(op.Quantity) AS TotalOrder,
+				SUM(op.Quantity*p.Price) AS TotalRevenue
 			FROM
 				OrderProduct op
 			JOIN
@@ -92,21 +93,22 @@ func (r *Repository) PopularProducts() ([]entity.OrderProduct, error) {
 			GROUP BY
 				p.ProductID, p.ProductName
 			ORDER BY
-				TotalOrdered DESC;`
+				TotalOrder DESC;`
 	rows, err := r.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var orderproduct []entity.OrderProduct
+	var products []entity.ProductPopular
 	for rows.Next() {
-		var odProd entity.OrderProduct
+		var product entity.ProductPopular
 		rows.Scan(
-			&odProd.Product.ID,
-			&odProd.Product.Name,
-			&odProd.Quantity,
+			&product.ID,
+			&product.Name,
+			&product.TotalOrder,
+			&product.TotalRevenue,
 		)
-		orderproduct = append(orderproduct, odProd)
+		products = append(products, product)
 	}
-	return orderproduct, nil
+	return products, nil
 }

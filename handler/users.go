@@ -114,19 +114,7 @@ func (h *Handler) ReportLoyal() {
 	}
 	utils.LoyalTable(loyals)
 	fmt.Println("\nTekan tombol ENTER untuk melanjutkan ke menu...")
-	fmt.Scanln("\n")
-}
-
-func (h *Handler) PopularProduct() {
-	fmt.Println("Daftar Produk Populer Coffe Hunter")
-	popular, err := h.usersRepo.PopularProduct()
-	if err != nil {
-		log.Fatalf("error fetching report: %v", err)
-		return
-	}
-	utils.PopularProductTable(popular)
-	fmt.Println("\nTekan tombol ENTER untuk melanjutkan ke menu...")
-	fmt.Scanln("\n")
+	fmt.Scanf("\n")
 }
 
 func (h *Handler) CustomerMenu(user *entity.User) {
