@@ -15,7 +15,13 @@ type Role struct {
 }
 
 type Loyal struct {
-	Name          	string
-    TotalOrder 		int
-    TotalSpending 	float64
+	Name          string
+	TotalOrder    int
+	TotalSpending float64
+}
+
+type Popular struct {
+	Product       string
+	TotalOrder    int
+	TotalSpending float64
 }
