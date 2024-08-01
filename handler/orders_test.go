@@ -87,7 +87,7 @@ func TestHandler_UserOrdersSuccess(t *testing.T) {
 		},
 	}
 	ordersRepo := new(MOCK_ORDERS.Repo)
-	ordersRepo.On("FetchUserOrders", mock.AnythingOfType("int")).Return(ordersMock)
+	ordersRepo.On("FetchUserOrders", mock.AnythingOfType("int")).Return(ordersMock, nil)
 	orders, errFetchUserOrders := ordersRepo.FetchUserOrders(1)
 	assert.Nil(t, errFetchUserOrders)
 	assert.Equal(t, len(orders), len(ordersMock))
@@ -98,7 +98,7 @@ func TestHandler_UserOrdersSuccess(t *testing.T) {
 		mock.AnythingOfType("int"),
 		mock.Anything,
 	).Return(nil)
-	errUpdateOrder := ordersRepo.UpdateOrderShippingStatus(orders[0].ID, entity.Shipped)
+	errUpdateOrder := ordersRepo.UpdateOrderShippingStatus(orders[0].ID, entity.Delivered)
 	assert.Nil(t, errUpdateOrder)
 }
 
