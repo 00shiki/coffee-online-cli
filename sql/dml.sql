@@ -57,3 +57,5 @@ VALUES (1, 1, 2),
        (4, 3, 1),
        (5, 2, 2),
        (5, 4, 1);
+
+UPDATE Users SET Password='$2a$12$n3h9vRdNedldd2Q6bpj.CeXLWoaJvlKP347NusgXE6RGGG8rGxBV2' where UserID=2;

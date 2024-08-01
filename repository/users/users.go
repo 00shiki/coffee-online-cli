@@ -137,3 +137,29 @@ func (r *Repository) LoyalCustomer() ([]entity.UserLoyal, error) {
 	}
 	return loyals, nil
 }
+
+func (r *Repository) EditUser(user entity.User) error {
+	query1, err := r.db.Prepare("SELECT Email FROM Users WHERE Email=?")
+	if err != nil {
+		return fmt.Errorf("could not prepare query: %v", err)
+	}
+	defer query1.Close()
+	query1.Query(user.Email)
+	query2, err := r.db.Prepare("UPDATE Users SET Name=?, Email=?, Password=?, Location=? WHERE UserID = ?")
+	if err != nil {
+		return fmt.Errorf("could not prepare query: %v", err)
+	}
+	defer query2.Close()
+	result, err := query2.Exec(user.Name, user.Email, user.Password, user.Location, user.ID)
+	if err != nil {
+		return fmt.Errorf("could not query rows: %v", err)
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affected == 0 {
+		return errors.New("could not update user")
+	}
+	return nil
+}
