@@ -172,6 +172,7 @@ loop:
 		case 4:
 			h.PopularProduct()
 		case 5:
+			h.ProductStock()
 		case 6:
 			h.ReportLoyal()
 		case 7:
