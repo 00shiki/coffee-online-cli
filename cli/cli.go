@@ -36,7 +36,7 @@ loop:
 		case 2:
 			c.Handler.RegisterUsers()
 		case 3:
-			fmt.Println("Terima kasih telah memesan kopi di Coffee Hunter! Selamat menikmati kopi Anda dan sampai jumpa lagi! ☕")
+			fmt.Println("Terima kasih telah memesan kopi di Coffee Line! Selamat menikmati kopi Anda dan sampai jumpa lagi! ☕")
 			break loop
 		default:
 			fmt.Println("Mohon masukkan pilihan (1/2/3)...")
