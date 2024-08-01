@@ -103,3 +103,25 @@ func (h *Handler) ProductRestock() {
 		}
 	}
 }
+
+func (h *Handler) ProductStock() {
+		products, err := h.productsRepo.FetchProducts()
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+		fmt.Println("Daftar Produk Kopi:")
+		for i, product := range products {
+			fmt.Printf("%d. %s -  %d\n", i+1, product.Name, product.Stock)
+		}
+		fmt.Printf("Ketik '%d' untuk kembali\n", len(products)+1)
+		var index int
+		_, err = fmt.Scan(&index)
+		if err != nil {
+			log.Fatalf("Failed to read products index: %v", err)
+			return
+		}
+		if index == len(products)+1 {
+			return
+		}
+}
