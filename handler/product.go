@@ -114,14 +114,5 @@ func (h *Handler) ProductStock() {
 		for i, product := range products {
 			fmt.Printf("%d. %s -  %d\n", i+1, product.Name, product.Stock)
 		}
-		fmt.Printf("Ketik '%d' untuk kembali\n", len(products)+1)
-		var index int
-		_, err = fmt.Scan(&index)
-		if err != nil {
-			log.Fatalf("Failed to read products index: %v", err)
-			return
-		}
-		if index == len(products)+1 {
-			return
-		}
+		fmt.Printf("Kembali ke Menu Utama... \n \n")
 }
