@@ -8,8 +8,8 @@ CREATE TABLE Product (
   ProductName VARCHAR(255) NOT NULL,         -- Name of the product
   Stock INT UNSIGNED NOT NULL,               -- Stock quantity (must be non-negative)
   Price DECIMAL(10, 2) NOT NULL,             -- Price of the product
-  CreatedAt DATE DEFAULT CURRENT_DATE,       -- Date when the product was created
-  UpdatedAt DATE DEFAULT CURRENT_DATE        -- Date when the product was last updated
+  CreatedAt DATE DEFAULT (CURRENT_DATE),     -- Date when the product was created
+  UpdatedAt DATE DEFAULT (CURRENT_DATE)      -- Date when the product was last updated
 );
 
 -- Create the Role table
@@ -26,8 +26,8 @@ CREATE TABLE Users (
   Password CHAR(60) NOT NULL,                -- Password of the user
   Location VARCHAR(255) NOT NULL,            -- Location of the user
   RoleID INT NOT NULL,                       -- Role ID (foreign key)
-  CreatedAt DATE DEFAULT CURRENT_DATE,       -- Date when the user was created
-  UpdatedAt DATE DEFAULT CURRENT_DATE,       -- Date when the user was last updated
+  CreatedAt DATE DEFAULT (CURRENT_DATE),       -- Date when the user was created
+  UpdatedAt DATE DEFAULT (CURRENT_DATE),       -- Date when the user was last updated
   FOREIGN KEY (RoleID) REFERENCES Role(RoleID) -- Foreign key constraint referencing Role table
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE Users (
 CREATE TABLE Payments (
   PaymentID INT AUTO_INCREMENT PRIMARY KEY,  -- Primary key for the payments table
   PaymentAmount DECIMAL(10, 2) NOT NULL,     -- Amount of the payment
-  PaymentDate DATE DEFAULT CURRENT_DATE      -- Date of the payment
+  PaymentDate DATE DEFAULT (CURRENT_DATE)    -- Date of the payment
 );
 
 -- Create the Shipping table
@@ -50,7 +50,7 @@ CREATE TABLE Orders (
   UserID INT NOT NULL,                       -- User ID (foreign key)
   PaymentID INT NOT NULL,                    -- Payment ID (foreign key)
   ShippingID INT NOT NULL,                   -- Shipping ID (foreign key)
-  OrderDate DATE DEFAULT CURRENT_DATE,       -- Date of the order
+  OrderDate DATE DEFAULT (CURRENT_DATE),     -- Date of the order
   FOREIGN KEY (UserID) REFERENCES Users(UserID),  -- Foreign key constraint referencing Users table
   FOREIGN KEY (PaymentID) REFERENCES Payments(PaymentID), -- Foreign key constraint referencing Payments table
   FOREIGN KEY (ShippingID) REFERENCES Shipping(ShippingID) -- Foreign key constraint referencing Shipping table
