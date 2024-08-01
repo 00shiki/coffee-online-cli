@@ -112,3 +112,16 @@ func (r *Repository) PopularProduct() ([]entity.ProductPopular, error) {
 	}
 	return products, nil
 }
+
+func (r *Repository) CreateProduct(product entity.Product) error {
+	query, err := r.db.Prepare("INSERT INTO Product (ProductName, Stock, Price) VALUES (?, ?, ?)")
+	if err != nil {
+		return fmt.Errorf("could not prepare query: %v", err)
+	}
+	defer query.Close()
+	_, err = query.Exec(product.Name, product.Stock, product.Price)
+	if err != nil {
+		return fmt.Errorf("could not insert product: %v", err)
+	}
+	return nil
+}

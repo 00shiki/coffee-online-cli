@@ -15,4 +15,5 @@ type Reader interface {
 
 type Writer interface {
 	ProductStockUpdate(id int, newStock int) error
+	CreateProduct(product entity.Product) error
 }
