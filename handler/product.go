@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"bufio"
 	"coffee-online-cli/entity"
 	"coffee-online-cli/utils"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 )
 
 func (h *Handler) PopularProduct() {
@@ -22,7 +25,9 @@ func (h *Handler) PopularProduct() {
 func (h *Handler) CreateProduct() {
 	fmt.Print("Masukkan nama kopi: ")
 	var name string
-	_, err := fmt.Scanln(&name)
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	name = strings.TrimSpace(name)
 	if err != nil {
 		log.Fatalf("Failed to read product name: %v", err)
 		return
@@ -105,14 +110,14 @@ func (h *Handler) ProductRestock() {
 }
 
 func (h *Handler) ProductStock() {
-		products, err := h.productsRepo.FetchProducts()
-		if err != nil {
-			log.Fatal(err)
-			return
-		}
-		fmt.Println("Daftar Produk Kopi:")
-		for i, product := range products {
-			fmt.Printf("%d. %s -  %d\n", i+1, product.Name, product.Stock)
-		}
-		fmt.Printf("Kembali ke Menu Utama... \n \n")
+	products, err := h.productsRepo.FetchProducts()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	fmt.Println("Daftar Produk Kopi:")
+	for i, product := range products {
+		fmt.Printf("%d. %s -  %d\n", i+1, product.Name, product.Stock)
+	}
+	fmt.Printf("Kembali ke Menu Utama... \n \n")
 }

@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"bufio"
 	"coffee-online-cli/entity"
 	"coffee-online-cli/utils"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 	"syscall"
 
 	"golang.org/x/term"
@@ -13,7 +16,9 @@ import (
 func (h *Handler) RegisterUsers() {
 	fmt.Print("Masukkan nama: ")
 	var name string
-	_, err := fmt.Scanln(&name)
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	name = strings.TrimSpace(name)
 	if err != nil {
 		log.Fatalf("Failed to read name: %v", err)
 		return
@@ -42,7 +47,7 @@ func (h *Handler) RegisterUsers() {
 
 	fmt.Print("\nMasukkan lokasi: ")
 	var location string
-	_, err = fmt.Scanln(&location)
+	location, err = reader.ReadString('\n')
 	if err != nil {
 		log.Fatalf("Failed to read location: %v", err)
 		return
@@ -96,6 +101,7 @@ func (h *Handler) LoginUsers() {
 		log.Fatalf("Failed to get user: %v", err)
 		return
 	}
+	loggedUser.Password = user.Password
 
 	switch loggedUser.Role.ID {
 	case 1:
@@ -125,7 +131,7 @@ func (h *Handler) UserUpdate(user *entity.User) {
 		Password: user.Password,
 		Location: user.Location,
 	}
-	// TODO: masukkan data yang ingin diubah
+	reader := bufio.NewReader(os.Stdin)
 loop:
 	for {
 		fmt.Println("Daftar kolom user:")
@@ -145,7 +151,8 @@ loop:
 		switch column {
 		case 1:
 			fmt.Print("Masukkan nama baru: ")
-			_, err := fmt.Scanln(&newUser.Name)
+			newUser.Name, err = reader.ReadString('\n')
+			newUser.Name = strings.TrimSpace(newUser.Name)
 			if err != nil {
 				log.Fatalf("Failed to read name: %v", err)
 				return
@@ -167,7 +174,8 @@ loop:
 			newUser.Password = utils.HashPassword(newPassword)
 		case 4:
 			fmt.Print("Masukkan lokasi baru: ")
-			_, err := fmt.Scanln(&newUser.Location)
+			newUser.Location, err = reader.ReadString('\n')
+			newUser.Location = strings.TrimSpace(newUser.Location)
 			if err != nil {
 				log.Fatalf("Failed to read location: %v", err)
 				return
